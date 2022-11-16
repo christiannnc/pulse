@@ -1,4 +1,5 @@
 import tokens.*;
+import parser.*;
 import java.util.*;
 import java.io.*;
 
@@ -22,7 +23,9 @@ public class Main {
         ArrayList<Token> tokens = Tokenizer.tokenize(source);
 
         for(Token tkn : tokens) {
-            System.out.println(tkn.getValue() + ":" + tkn.getTokenType());
+            System.out.println(tkn);
         }
+
+        String parsedTokens = Parser.parse(tokens);
     }
 }

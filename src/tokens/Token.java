@@ -23,4 +23,13 @@ public class Token {
     public int getPosition() {
         return position;
     }
+
+    public String toString() {
+        String s = "";
+
+        s += this.value + ":";
+        s += this.tokenType;
+
+        return s;
+    }
 }
