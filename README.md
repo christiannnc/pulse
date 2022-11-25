@@ -1,8 +1,5 @@
-# pulse
-A repository for the Pulse programming language
-
 ## about
-I began working on an interpreter for a new programming language in November 2022. My main objective with this project is to learn more about
+I began working on this interpreter for a new programming language in November 2022. My main objective with this project is to learn more about
 language and interpeter design. Due to the complexity of building a programming language, is very likely that this project will never be completed
 and will be nothing more than something cool to look back on. 
 
