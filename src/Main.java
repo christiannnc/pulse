@@ -22,10 +22,13 @@ public class Main {
 
         ArrayList<Token> tokens = Tokenizer.tokenize(source);
 
+        Parser parser = new Parser(tokens);
+        AbstractSyntaxTree ast = parser.parse();
+
         for(Token tkn : tokens) {
             System.out.println(tkn);
         }
 
-        String parsedTokens = Parser.parse(tokens);
+        //String parsedTokens = Parser.parse(tokens);
     }
 }

@@ -6,15 +6,11 @@ public class Tokenizer {
     private enum TokenType {
         LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
         SEMI_COLON, COLON, DOUBLE_QT, SINGLE_QT,
-
         MUL, DIV, ADD, SUB, POW, MOD,
-
         EQ,
-
-        EQ_COMP, OR, NOT, NOT_EQ, WHILE, IF, ELSE, ELSE_IF,
+        EQ_COMP, OR, NOT, NOT_EQ, WHILE, IF, ELSE, ELSE_IF, PRINT,
+        FUNCTION,
         LESS, GREATER, LESS_EQ, GREATER_EQ,
-
-
         INT, DOUBLE, BOOLEAN, STRING, IDENTIFIER,
         LINE_BREAK,
         INVALID
@@ -42,11 +38,13 @@ public class Tokenizer {
         // this will make the file easier to tokenize
         while(file.hasNext()) {
             tokenCount++;
-            String nextStr = file.next();
-            if(nextStr.equals("\n")) {
+            String nextToken = file.next();
+
+            if(nextToken.equals("\n")) {
                 lineNumber++;
             }
-            source += nextStr;
+
+            source += nextToken;
         }
 
         ArrayList<Token> tokens = new ArrayList<>();
@@ -149,13 +147,21 @@ public class Tokenizer {
         } else if(ALPHANUMERIC_STRING.contains(value)) {
             String concatenatedValue = concatenateString(value);
             if(concatenatedValue.equals("else")) {
-                return TokenType.ELSE;
-            } else if(concatenatedValue.equals("or")) {
+                // check if the following characters make this else if
+                if(match("if")) {
+                    return TokenType.ELSE_IF;
+                } else {
+                    return TokenType.ELSE;
+                }
+            } else if(concatenatedValue.equals("||")) {
                 return TokenType.OR;
             } else if(concatenatedValue.equals("while")) {
                 return TokenType.WHILE;
-            } else if(concatenatedValue.equals("else if")) {
-                return TokenType.ELSE_IF;
+            } else if(concatenatedValue.equals("print")) {
+                return TokenType.PRINT;
+
+            } else if(concatenatedValue.equals("func")) {
+                return TokenType.FUNCTION;
             } else {
                 return TokenType.IDENTIFIER;
             }
@@ -216,7 +222,7 @@ public class Tokenizer {
             str = source.substring(position, position + 1);
 
             // is this necessary?
-            if(!ALPHANUMERIC_STRING.contains(str)) {
+            if(!ALPHANUMERIC_STRING.contains(str) && !str.equals(" ")) {
                 continue;
             }
 
